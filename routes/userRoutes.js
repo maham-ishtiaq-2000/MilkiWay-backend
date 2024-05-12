@@ -27,4 +27,19 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Update user details
+router.put('/update/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
+    if (updatedUser) {
+      res.status(200).send({ message: 'User updated successfully', updatedUser });
+    } else {
+      res.status(404).send({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
